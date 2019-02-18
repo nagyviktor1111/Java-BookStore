@@ -1,5 +1,7 @@
 package com.pluralsight;
 
+import java.lang.String;
+import java.lang.Integer;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -58,7 +60,10 @@ public class ControllerServlet extends HttpServlet {
           break;
 				case "/insert":
 					insertBook(request, response);
-          break;
+	        break;
+				case "/delete":
+					deleteBook(request, response);
+					break;
         default:
 				   listBooks(request, response);
            break;
@@ -102,6 +107,12 @@ public class ControllerServlet extends HttpServlet {
 		Book newBook = new Book(title, author, Float.parseFloat(priceString));
 
 		bookDAO.insertBook(newBook);
+		response.sendRedirect("list");
+	}
+
+	private void deleteBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		bookDAO.deleteBook(id);
 		response.sendRedirect("list");
 	}
 
